@@ -1,0 +1,45 @@
+app:
+  api:
+    version: v1
+    node: node1
+    name: yilian
+  
+spring:
+  profiles:
+    active: dev
+  main:
+    banner-mode: LOG
+    
+endpoints:
+  jmx:
+    unique-names: true
+  shutdown:
+    enabled: true
+          
+server:
+  port: 8300
+  context-path: /${app.api.name}/admin/${app.api.version}
+  session:
+    timeout: 3600
+    
+management:
+  port: 9300
+  context-path: /${app.api.name}/admin/${app.api.version}
+  address: 127.0.0.1
+  security:
+    enabled: false
+  
+---
+spring:
+  profiles: dev
+jsondoc:
+  version: ${app.api.version}
+  basePath: http://localhost:${server.port}${server.context-path}/
+  packages: 
+    - com.joinway.${app.api.name}.admin.controller
+    - com.joinway.${app.api.name}.admin.bean.view
+    - com.joinway.${app.api.name}.core.bean.view
+    - com.joinway.${app.api.name}.support.controller
+    - com.joinway.${app.api.name}.support.bean.view
+  playgroundEnabled: true
+  displayMethodAs: SUMMARY

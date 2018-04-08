@@ -1,0 +1,30 @@
+{
+  "model": [
+    {
+      "menus": [
+        {
+          "id": 2,
+          "name": "菜单管理",
+          "url": 'menu',
+          "iconCss": null
+        },
+        {
+          "id": 3,
+          "name": "用户管理",
+          "url": 'user',
+          "iconCss": null
+        },
+        {
+          "id": 4,
+          "name": "权限管理",
+          "url": 'role',
+          "iconCss": null
+        }
+      ],
+      "id": 1,
+      "name": "系统设置",
+      "url": null,
+      "iconCss": 'menu-icon fa fa-desktop'
+    }
+  ]
+}

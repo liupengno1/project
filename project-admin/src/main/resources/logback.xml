@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<conversionRule conversionWord="logger" converterClass="com.joinway.framework.support.logging.utils.LogMethodNameConverter" />
+	
+	<property scope="context" name="log.name" value="yilian-admin-${app.api.version:-v1}-${app.api.node:-node1}.${spring.profiles.active:-dev}" />
+
+<if condition='property("spring.profiles.active").equals("prod")'>
+<then>
+	<property scope="context" name="log.dir" value="/app/prod/yilian/server/logs" />
+</then>
+</if>
+<if condition='property("spring.profiles.active").equals("uat")'>
+<then>
+	<property scope="context" name="log.dir" value="/app/uat/yilian/server/logs" />
+</then>
+</if>
+<if condition='property("spring.profiles.active").equals("sit")'>
+<then>
+	<property scope="context" name="log.dir" value="/app/sit/yilian/server/logs" />
+</then>
+</if>
+<if condition='property("spring.profiles.active").equals("ci")'>
+<then>
+	<property scope="context" name="log.dir" value="/app/ci/yilian/server/logs" />
+</then>
+</if>
+<if condition='property("spring.profiles.active").equals("demo")'>
+<then>
+	<property scope="context" name="log.dir" value="/app/demo/yilian/server/logs" />
+</then>
+</if>
+
+<if condition='property("spring.profiles.active").equals("prod") || property("spring.profiles.active").equals("uat") || property("spring.profiles.active").equals("sit") || property("spring.profiles.active").equals("ci") || property("spring.profiles.active").equals("demo")'>	
+	<then>
+		<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${log.dir}/${log.name}.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${log.dir}/${log.name}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+				<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+					<maxFileSize>100MB</maxFileSize>
+				</timeBasedFileNamingAndTriggeringPolicy>
+				<!-- 自动删除x天前的log -->
+				<maxHistory>90</maxHistory>
+			</rollingPolicy>
+			<encoder>
+				<pattern>%date [%X{com.joinway.audit.flow}] %-5level %logger{80} - %msg%n</pattern>
+			</encoder>
+		</appender>
+	
+		<appender name="PERFORMANCE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${log.dir}/${log.name}-performance.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${log.dir}/${log.name}_performance.%d{yyyy-MM}.%i.log</fileNamePattern>
+				<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+					<maxFileSize>20MB</maxFileSize>
+				</timeBasedFileNamingAndTriggeringPolicy>
+				<maxHistory>6</maxHistory>
+			</rollingPolicy>
+			<encoder>
+				<pattern>%date %-4relative [%X{com.joinway.audit.flow}] %-5level %logger{80} - %msg%n</pattern>
+			</encoder>
+		</appender>
+	
+		<appender name="UITRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${log.dir}/${log.name}-ui.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${log.dir}/${log.name}_ui.%d{yyyy-MM}.%i.log</fileNamePattern>
+				<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+					<maxFileSize>20MB</maxFileSize>
+				</timeBasedFileNamingAndTriggeringPolicy>
+				<maxHistory>6</maxHistory>
+			</rollingPolicy>
+			<encoder>
+				<pattern>%date %-4relative [%X{com.joinway.audit.flow}] %-5level %logger{80} - %msg%n</pattern>
+			</encoder>
+		</appender>
+
+		<appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${log.dir}/${log.name}-error.log</file>
+			<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+				<level>ERROR</level>
+			</filter>
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${log.dir}/${log.name}-error.%d{yyyy-MM}.%i.log</fileNamePattern>
+				<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+					<maxFileSize>20MB</maxFileSize>
+				</timeBasedFileNamingAndTriggeringPolicy>
+				<maxHistory>6</maxHistory>
+			</rollingPolicy>
+			<encoder>
+				<pattern>%date %-4relative [%X{com.joinway.audit.flow}] %-5level %logger{80} - %msg%n</pattern>
+			</encoder>
+		</appender>
+		
+		<logger name="com.joinway" level="debug"/>
+		<logger name="PerformanceMonitor" level="info" additivity="false">
+			<appender-ref ref="PERFORMANCE"/>
+		</logger>
+		<logger name="UIMonitor" level="debug" additivity="false">
+			<appender-ref ref="UITRACE"/>
+		</logger>
+		
+		<root level="info">
+			<appender-ref ref="FILE" />
+			<appender-ref ref="ERROR" />
+		</root>
+		
+</then>
+<else>
+	
+		<appender name="UITRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${user.home}/${log.name}-ui.log</file>
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${user.home}/${log.name}_ui.%d{yyyy-MM}.%i.log</fileNamePattern>
+				<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+					<maxFileSize>20MB</maxFileSize>
+				</timeBasedFileNamingAndTriggeringPolicy>
+				<maxHistory>6</maxHistory>
+			</rollingPolicy>
+			<encoder>
+				<pattern>%date %-4relative [%X{com.joinway.audit.flow}] %-5level %logger{80} - %msg%n</pattern>
+			</encoder>
+		</appender>
+
+		<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+			<encoder>
+				<pattern>%date [%X{com.joinway.audit.flow}] %-5level %logger{80} - %msg%n</pattern>
+			</encoder>
+		</appender>
+		
+		<logger name="com.joinway" level="debug"/>
+		
+		<root level="info">
+			<appender-ref ref="STDOUT" />
+		</root>
+		
+		<logger name="UIMonitor" level="debug" additivity="false">
+			<appender-ref ref="UITRACE"/>
+			<appender-ref ref="STDOUT" />
+		</logger>
+		
+	</else>
+</if>
+
+</configuration>
