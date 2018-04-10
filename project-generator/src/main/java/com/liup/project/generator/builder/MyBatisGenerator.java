@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.joinway.yilian.generator.dao.AbstractMapperBuilder;
-import com.joinway.yilian.generator.dao.bean.DBConfig;
+import com.liup.project.generator.AbstractMapperBuilder;
+
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration("classpath:spring/mbg-context.xml") 

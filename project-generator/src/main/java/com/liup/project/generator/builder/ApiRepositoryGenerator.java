@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.joinway.yilian.generator.dao.AbstractRepositoryBuilder;
-import com.joinway.yilian.generator.dao.bean.DBConfig;
+import com.liup.project.generator.AbstractRepositoryBuilder;
+import com.liup.project.generator.bean.DBConfig;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration("classpath:spring/repository-generator-context.xml") 

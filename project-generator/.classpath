@@ -23,5 +23,14 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Administrator/.m2/repository/com/joinway/framework-extension-utils/3.1.8-SNAPSHOT/framework-extension-utils-3.1.8-SNAPSHOT.jar" sourcepath="C:/Users/Administrator/.m2/repository/com/joinway/framework-extension-utils/3.1.8-SNAPSHOT/framework-extension-utils-3.1.8-SNAPSHOT-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.groupId" value="com.joinway"/>
+			<attribute name="maven.artifactId" value="framework-extension-utils"/>
+			<attribute name="maven.version" value="3.1.8-SNAPSHOT"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -24,10 +24,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.joinway.yilian.generator.dao.bean.ColumnValue;
-import com.joinway.yilian.generator.dao.bean.DBConfig;
-import com.joinway.yilian.generator.dao.bean.Table;
-import com.joinway.yilian.generator.dao.bean.TableMetaData;
+import com.liup.project.generator.bean.ColumnValue;
+import com.liup.project.generator.bean.DBConfig;
+import com.liup.project.generator.bean.Table;
+import com.liup.project.generator.bean.TableMetaData;
 
 import freemarker.template.Template;
 

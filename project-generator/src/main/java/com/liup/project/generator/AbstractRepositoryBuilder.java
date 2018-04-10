@@ -21,10 +21,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.joinway.yilian.generator.dao.bean.DBConfig;
-import com.joinway.yilian.generator.dao.bean.QueryElement;
-import com.joinway.yilian.generator.dao.bean.SelectOption;
-import com.joinway.yilian.generator.dao.bean.TableMetaData;
+import com.liup.project.generator.bean.DBConfig;
+import com.liup.project.generator.bean.QueryElement;
+import com.liup.project.generator.bean.SelectOption;
+import com.liup.project.generator.bean.TableMetaData;
 
 import freemarker.template.Template;
 
