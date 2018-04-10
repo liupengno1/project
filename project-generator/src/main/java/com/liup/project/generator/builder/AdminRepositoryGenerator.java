@@ -26,8 +26,8 @@ public class AdminRepositoryGenerator extends AbstractRepositoryBuilder {
 
 	@Override
 	protected String getAdminRoot() {
-		return "G:\\zonghui\\bangbang_admin_code\\yilian-admin-html\\app";
-//		return "D:\\tmp\\yilian-admin-html";
+//		return "G:\\zonghui\\bangbang_admin_code\\yilian-admin-html\\app";
+		return "E:\\tmp\\yilian-admin-html";
 	}
 
 	@Before public void init(){
