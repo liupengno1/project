@@ -14,4 +14,277 @@
     <module>project-generator</module>
     <module>project-support</module>
   </modules>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.5.4.RELEASE</version>
+  </parent>
+
+  <properties>
+  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  	<java.version>1.8</java.version>
+  	<skipTests>true</skipTests>
+  	<framework.version>3.1.7-SNAPSHOT</framework.version>
+  	<druid.version>1.0.27</druid.version>
+  	<jsondoc.version>1.2.16</jsondoc.version>
+  	<spring.boot.version>1.5.1.RELEASE</spring.boot.version>
+  	<shiro.version>1.3.2</shiro.version>
+  	<commons.lang3.version>3.5</commons.lang3.version>
+  	<poi.version>3.16</poi.version>
+  	<checkstyle.config.location>scm/checkstyle/joinway_checks.xml</checkstyle.config.location>
+  </properties>
+  
+  <build>
+  	<plugins>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-compiler-plugin</artifactId>
+			<configuration>
+				<source>1.8</source>
+				<target>1.8</target>
+			</configuration>
+  		</plugin>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-surefire-plugin</artifactId>
+  			<configuration>
+  				<skipTests>${skipTests}</skipTests>
+  			</configuration>
+  		</plugin>
+  		<plugin>
+  			<groupId>org.codehaus.mojo</groupId>
+  			<artifactId>build-helper-maven-plugin</artifactId>
+  			<executions>
+  				<execution>
+  					<goals>
+  						<goal>timestamp-property</goal>
+  					</goals>
+  					<configuration>
+  						<name>revision</name>
+						<pattern>yyyyMMdd.HHmmss</pattern>
+  						<timeZone>GMT+8</timeZone>
+  					</configuration>
+  				</execution>
+  			</executions>
+  		</plugin>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-site-plugin</artifactId>
+  			<configuration>
+  				<locales>zh_CN</locales>
+  			</configuration>
+  		</plugin>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-checkstyle-plugin</artifactId>
+			<!-- <version>${checkstyle.version}</version> -->
+			<executions>
+		    	<execution>
+					<id>validate</id>
+					<phase>validate</phase>
+					<goals>
+		         		<goal>check</goal>
+		       		</goals>
+					<configuration>
+				        <encoding>UTF-8</encoding>
+				        <linkXRef>false</linkXRef>
+					</configuration>
+		     	</execution>
+		   </executions>
+  		</plugin>
+  	</plugins>
+  </build>
+
+  <distributionManagement>
+  	<site>
+  		<id>site</id>
+  		<url>file:///${project.build.directory}/staging</url>
+  	</site>
+  </distributionManagement>
+  
+  <reporting>
+  	<plugins>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-project-info-reports-plugin</artifactId>
+  			<!-- <version>2.9</version> -->
+  			<reportSets>
+  				<reportSet>
+  					<reports>
+  						<report>index</report>
+  					</reports>
+  				</reportSet>
+  			</reportSets>
+        </plugin>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-jxr-plugin</artifactId>
+  			<!-- <version>2.5</version> -->
+  			<configuration>
+  				<aggregate>true</aggregate>
+  				<encoding>UTF-8</encoding>
+  			</configuration>
+  		</plugin>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-checkstyle-plugin</artifactId>
+			<!-- <version>${checkstyle.version}</version> -->
+  			<!-- <configuration>
+  				<configLocation>${plugin.checkstyle.checks}</configLocation>
+  			</configuration> -->
+  			<reportSets>
+				<reportSet>
+					<inherited>false</inherited>
+					<reports>
+						<report>checkstyle-aggregate</report>
+					</reports>
+				</reportSet>
+			</reportSets>
+  		</plugin>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-pmd-plugin</artifactId>
+  			<!-- <version>3.6</version> -->
+  			<configuration>
+  				<aggregate>true</aggregate>
+  				<sourceEncoding>utf-8</sourceEncoding>
+  				<!-- <targetJdk>1.8</targetJdk> -->
+  				<excludes>
+  					<exclude>**/bean/**/*.java</exclude>
+  					<exclude>**/mapper/**/*.java</exclude>
+  					<exclude>**/dao/**/*.java</exclude>
+  				</excludes>
+  			</configuration>
+  		</plugin>
+  		<!-- <plugin>
+  			<groupId>org.codehaus.mojo</groupId>
+  			<artifactId>findbugs-maven-plugin</artifactId>
+  			<version>3.0.4</version>
+  			<configuration>
+  				<aggregate>true</aggregate>
+  				<effort>Max</effort>
+  				<threshold>Low</threshold>
+  				<xmlOutput>true</xmlOutput>
+  			</configuration>
+  		</plugin> -->
+  	</plugins>
+  </reporting>
+  
+  <dependencies>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-test</artifactId>
+	</dependency>
+  </dependencies>  
+  
+  <repositories>
+  	<repository>
+		<releases>
+  			<enabled>true</enabled>
+  			<updatePolicy>never</updatePolicy>
+  		</releases>
+		<snapshots>
+	        <enabled>false</enabled>
+      	</snapshots>
+  		<id>alimaven</id>
+  		<name>aliyun maven</name>
+  		<url>http://maven.aliyun.com/nexus/content/groups/public</url>
+  	</repository>
+	<repository>
+		<releases>
+  			<enabled>false</enabled>
+  		</releases>
+		<snapshots>
+	        <enabled>true</enabled>
+	        <updatePolicy>always</updatePolicy>
+      	</snapshots>
+		<id>joinway-snapshots</id>
+		<name>JoinWay Snapshots Library</name>
+		<url>http://115.28.198.131:8001/nexus/content/repositories/snapshots/</url>
+	</repository>
+	<repository>
+		<releases>
+  			<enabled>true</enabled>
+  			<updatePolicy>never</updatePolicy>
+  		</releases>
+		<snapshots>
+	        <enabled>false</enabled>
+      	</snapshots>
+		<id>joinway-release</id>
+		<name>JoinWay Release Library</name>
+		<url>http://115.28.198.131:8001/nexus/content/repositories/releases</url>
+	</repository>
+	<repository>
+		<releases>
+  			<enabled>true</enabled>
+  			<updatePolicy>never</updatePolicy>
+  		</releases>
+		<id>joinway</id>
+		<name>JoinWay Thirdparty Library</name>  
+		<url>http://115.28.198.131:8001/nexus/content/repositories/thirdparty</url>
+	</repository>
+  	<repository>
+		<releases>
+  			<enabled>true</enabled>
+  			<updatePolicy>never</updatePolicy>
+  		</releases>
+		<snapshots>
+	        <enabled>false</enabled>
+      	</snapshots>
+  		<id>repo2</id>
+  		<name>Central</name>
+  		<url>http://repo2.maven.org/maven2/</url>
+  	</repository>
+  </repositories>
+  <pluginRepositories>
+  	<pluginRepository>
+		<releases>
+  			<enabled>true</enabled>
+  			<updatePolicy>never</updatePolicy>
+  		</releases>
+		<snapshots>
+	        <enabled>false</enabled>
+      	</snapshots>
+  		<id>alimaven</id>
+  		<name>aliyun maven</name>
+  		<url>http://maven.aliyun.com/nexus/content/groups/public</url>
+  	</pluginRepository>
+  	<pluginRepository>
+		<releases>
+  			<enabled>true</enabled>
+  			<updatePolicy>never</updatePolicy>
+  		</releases>
+		<snapshots>
+	        <enabled>false</enabled>
+      	</snapshots>
+  		<id>repo2</id>
+  		<name>Central</name>
+  		<url>http://repo2.maven.org/maven2/</url>  	
+  	</pluginRepository>
+  </pluginRepositories>
+  
+  <profiles>
+	<profile>
+		<id>release</id>
+		<activation>
+			<activeByDefault>true</activeByDefault>
+		</activation>
+		<properties>
+			<checkstyle.failOnViolation>false</checkstyle.failOnViolation>
+		</properties>
+	</profile>
+	<profile>
+		<id>checkstyle</id>
+		<properties>
+			<checkstyle.failOnViolation>true</checkstyle.failOnViolation>
+		</properties>
+	</profile>
+	<profile>
+		<id>sonar</id>
+		<properties>
+			<checkstyle.failOnViolation>false</checkstyle.failOnViolation>
+			<sonar.host.url>http://192.168.3.130:9000/</sonar.host.url>
+		</properties>
+	</profile>
+   </profiles>  
 </project>

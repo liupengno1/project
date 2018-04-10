@@ -15,7 +15,122 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  <build>
+  	<finalName>${project.artifactId}-${project.version}-r${revision}</finalName>
+  	
+  	<plugins>
+  		<plugin>
+  			<groupId>org.springframework.boot</groupId>
+  			<artifactId>spring-boot-maven-plugin</artifactId>
+  		</plugin>
+  	</plugins>
+  </build>
+
   <dependencies>
+	<dependency>
+		<groupId>com.joinway</groupId>
+		<artifactId>framework-beans</artifactId>
+		<version>${framework.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>com.joinway</groupId>
+		<artifactId>framework-support</artifactId>
+		<version>${framework.version}</version>
+	</dependency>
+	<!-- <dependency>
+		<groupId>com.joinway</groupId>
+		<artifactId>framework-extension-net</artifactId>
+		<version>${framework.version}</version>
+	</dependency> -->
+	<dependency>
+		<groupId>com.joinway</groupId>
+		<artifactId>framework-ueditor</artifactId>
+		<version>${framework.version}</version>
+	</dependency>
+    <dependency>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.springframework.boot</groupId>
+    	<artifactId>spring-boot-starter-mail</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.springframework.boot</groupId>
+    	<artifactId>spring-boot-actuator</artifactId>
+    </dependency>
+	<dependency>
+		<groupId>net.sf.ehcache</groupId>
+		<artifactId>ehcache</artifactId>
+	</dependency>
+		<dependency>
+		<groupId>dom4j</groupId>
+		<artifactId>dom4j</artifactId>
+		<version>1.6.1</version>
+	</dependency>	
+	<dependency>
+		<groupId>jaxen</groupId>
+		<artifactId>jaxen</artifactId>
+		<version>1.1.6</version>
+	</dependency>
+	<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>fastjson</artifactId>
+    <version>1.2.7</version>
+</dependency>
+	<dependency>
+	  <groupId>net.guerlab</groupId>
+	  <artifactId>sdk-alipay-starter</artifactId>
+	  <version>1.0.3</version>
+	</dependency>
+	<dependency>
+	    <groupId>commons-httpclient</groupId>
+	    <artifactId>commons-httpclient</artifactId>
+	    <version>3.1</version>
+	</dependency>
+	<dependency>
+        <groupId>org.jsondoc</groupId>
+        <artifactId>spring-boot-starter-jsondoc</artifactId>
+        <version>${jsondoc.version}</version>
+	</dependency>    
+	<dependency>
+        <groupId>org.jsondoc</groupId>
+        <artifactId>jsondoc-ui-webjar</artifactId>
+        <version>${jsondoc.version}</version>
+	</dependency>
+			<!-- json解析器 -->
+		<dependency>
+		<groupId>org.codehaus.jackson</groupId>
+		<artifactId>jackson-core-asl</artifactId>
+		<version>1.9.11</version>
+		</dependency>
+		<dependency>
+		<groupId>org.codehaus.jackson</groupId>
+		<artifactId>jackson-core-lgpl</artifactId>
+		<version>1.9.11</version>
+		</dependency>
+		<dependency>
+		<groupId>org.codehaus.jackson</groupId>
+		<artifactId>jackson-mapper-asl</artifactId>
+		<version>1.9.11</version>
+		</dependency>
+		<dependency>
+		<groupId>org.codehaus.jackson</groupId>
+		<artifactId>jackson-mapper-lgpl</artifactId>
+		<version>1.9.11</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime -->
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpmime</artifactId>
+		    <version>4.2.1</version>
+		</dependency>
+		
+	<dependency>
+		<groupId>com.hazelcast</groupId>
+		<artifactId>hazelcast</artifactId>
+	</dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
