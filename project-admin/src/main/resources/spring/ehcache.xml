@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" updateCheck="false">
+	<diskStore path="user.home"/>
+	
+	<defaultCache 
+		maxElementsInMemory="50" 
+		eternal="false" 
+		overflowToDisk="true" 
+		memoryStoreEvictionPolicy="LFU" />
+ 	
+ 	<!-- 修改缓存名称 -->
+	<cache 
+		name="cacheName1" 
+		maxElementsInMemory="50" 
+		eternal="false" 
+		timeToLiveSeconds="3600" 
+		overflowToDisk="true">
+		<!-- 解开以支持集群 -->
+		<!-- <cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"/> -->
+	</cache> 
+
+	<!--
+	缓存集群配置
+	搜索某个网段上的缓存
+	timeToLive
+	    0是限制在同一个服务器
+	    1是限制在同一个子网
+	    32是限制在同一个网站
+	    64是限制在同一个region
+	    128是限制在同一个大洲
+	    255是不限制
+	-->
+	<!-- <cacheManagerPeerProviderFactory
+		class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+		properties="peerDiscovery=automatic,
+					multicastGroupAddress=230.0.0.1,
+					multicastGroupPort=4446"
+	/>
+	
+	<cacheManagerPeerListenerFactory class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"/> -->
+		
+</ehcache>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joinway.yilian.admin.dao.repository.ServiceInfoRepository">
+	<!--
+		此文件初版由工具生成，仅需生成一次，请定制开发
+		生成时间: 2017-09-22 10:53:56
+	-->
+	<resultMap id="ServiceInfoGridResultMap" type="com.joinway.yilian.admin.bean.domain.ServiceInfoGrid" extends="com.joinway.yilian.data.dao.mapper.ServiceInfoMapper.BaseResultMap">
+	</resultMap>
+
+	<sql id="Select">
+		select
+			<include refid="com.joinway.yilian.data.dao.mapper.ServiceInfoMapper.Base_Column_List" />
+		from t_service_info where 1
+		<foreach collection="_this" index="key" item="value" open="" close="" separator="">
+			<if test="!key.startsWith('_')">
+				<if test="value == null">
+			and ${key} is null
+				</if>
+				<if test="value != null">
+			and ${key} = #{value}
+				</if>
+			</if>
+		</foreach>
+		<if test="_orderBy != null and _orderBy.trim() != ''">
+			order by #{_orderBy}
+		</if>
+	</sql>
+
+	<select id="select" parameterType="map" resultMap="com.joinway.yilian.data.dao.mapper.ServiceInfoMapper.BaseResultMap">
+		<include refid="Select"></include>
+	</select>
+	
+	<select id="count" parameterType="map" resultType="long">
+		select count(*) from (
+		<include refid="Select"></include>
+		) t
+	</select>
+
+	<select id="selectGrid" parameterType="map" resultMap="ServiceInfoGridResultMap">
+		select 
+			si.id 
+			, si.name 
+			, si.remark 
+			, si.city 
+			, si.address 
+			, si.longitude 
+			, si.latitude 
+			, si.keyword 
+			, si.shop_name 
+			, si.shop_url 
+			, si.service_mobile 
+			, si.online_status 
+			, si.pv 
+			, si.delete_status 
+			, si.tx_code 
+			, si.create_user_id 
+			, si.create_by 
+			, si.create_date 
+			, si.update_user_id 
+			, si.update_by 
+			, si.update_date
+			, sp.phone 
+		from t_service_info si 
+		left join t_service_phone sp
+		on si.id = sp.service_id
+		left join t_region tr
+		on si.city = tr.cityid
+		where si.delete_status = 1
+		<if test="id != null">
+			and si.id = #{id}
+		</if>
+		<if test="name != null and name.trim() != ''">
+			and si.name like concat('%', #{name}, '%')
+		</if>
+		<if test="phone != null and phone.trim() != ''">
+			and sp.phone like concat('%', #{phone}, '%')
+		</if>
+		<if test="keyword != null and keyword.trim() != ''">
+			and si.keyword like concat('%', #{keyword}, '%')
+		</if>
+		<if test="remark != null and remark.trim() != ''">
+			and si.remark like concat('%', #{remark}, '%')
+		</if>
+		<if test="city != null and city.trim() != ''">
+			and si.city like concat('%', #{city}, '%')
+		</if>
+		<if test="address != null and address.trim() != ''">
+			and si.address like concat('%', #{address}, '%')
+		</if>
+		<if test="longitude != null and longitude.trim() != ''">
+			and si.longitude like concat('%', #{longitude}, '%')
+		</if>
+		<if test="latitude != null and latitude.trim() != ''">
+			and si.latitude like concat('%', #{latitude}, '%')
+		</if>
+		<if test="keyword != null and keyword.trim() != ''">
+			and si.keyword like concat('%', #{keyword}, '%')
+		</if>
+		<if test="shop_name != null and shop_name.trim() != ''">
+			and si.shop_name like concat('%', #{shop_name}, '%')
+		</if>
+		<if test="shop_url != null and shop_url.trim() != ''">
+			and si.shop_url like concat('%', #{shop_url}, '%')
+		</if>
+		<if test="service_mobile != null and service_mobile.trim() != ''">
+			and si.service_mobile like concat('%', #{service_mobile}, '%')
+		</if>
+		<if test="online_status != null">
+			and si.online_status = #{online_status}
+		</if>
+		<if test="pv != null">
+			and si.pv = #{pv}
+		</if>
+		<if test="tx_code != null and tx_code.trim() != ''">
+			and si.tx_code like concat('%', #{tx_code}, '%')
+		</if>
+		<if test="create_user_id != null">
+			and si.create_user_id = #{create_user_id}
+		</if>
+		<if test="create_by != null and create_by.trim() != ''">
+			and si.create_by like concat('%', #{create_by}, '%')
+		</if>
+		<if test="create_date_from != null">
+			and date_format(si.create_date, '%Y-%m-%d') &gt;= #{create_date_from}
+		</if>
+		<if test="create_date_to != null">
+			and date_format(si.create_date, '%Y-%m-%d') &lt;= #{create_date_to}
+		</if>
+		<if test="create_date != null">
+			and date_format(si.create_date, '%Y-%m-%d') = #{create_date}
+		</if>
+		<if test="update_user_id != null">
+			and si.update_user_id = #{update_user_id}
+		</if>
+		<if test="update_by != null and update_by.trim() != ''">
+			and si.update_by like concat('%', #{update_by}, '%')
+		</if>
+		<if test="update_date_from != null">
+			and date_format(si.update_date, '%Y-%m-%d') &gt;= #{update_date_from}
+		</if>
+		<if test="update_date_to != null">
+			and date_format(si.update_date, '%Y-%m-%d') &lt;= #{update_date_to}
+		</if>
+		<if test="update_date != null">
+			and date_format(si.update_date, '%Y-%m-%d') = #{update_date}
+		</if>
+		order by si.id desc
+	</select>
+
+	<insert id="insert" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+		insert into t_service_info 
+		<foreach collection="_this" index="key" open="(" close=")" separator=",">
+			<if test="!key.startsWith('_')">
+			${key}
+			</if>
+		</foreach>
+		values
+		<foreach collection="_this" index="key" item="value" open="(" close=")" separator=",">
+			<if test="!key.startsWith('_')">
+			if(length(#{value}) = 0, null, #{value})
+			</if>
+		</foreach>
+	</insert>
+	
+	<update id="update" parameterType="map">
+		update t_service_info set
+		<foreach collection="_this" index="key" item="value" open="" close="" separator=",">
+		<if test="key != 'id' and !key.startsWith('_')">
+			${key} = #{value}
+		</if>
+		</foreach>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete" parameterType="map">
+		delete from t_service_info where 1
+		<foreach collection="_this" index="key" item="value" open="" close="" separator="">
+			<if test="!key.startsWith('_')">
+				<if test="value == null">
+			and ${key} is null
+				</if>
+				<if test="value != null">
+			and ${key} = #{value}
+				</if>
+			</if>
+		</foreach>
+	</delete>
+</mapper>

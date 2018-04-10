@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joinway.yilian.admin.dao.repository.UserRoleRepository">
+
+	<resultMap id="UserRoleGridResultMap" type="com.joinway.yilian.admin.bean.domain.UserRoleGrid" extends="com.joinway.yilian.data.dao.mapper.UserRoleMapper.BaseResultMap">
+	</resultMap>
+
+	<sql id="Select">
+		select
+			<include refid="com.joinway.yilian.data.dao.mapper.UserRoleMapper.Base_Column_List" />
+		from t_user_role where 1
+		<foreach collection="_this" index="key" item="value" open="" close="" separator="">
+			<if test="!key.startsWith('_')">
+				<if test="value == null">
+			and ${key} is null
+				</if>
+				<if test="value != null">
+			and ${key} = #{value}
+				</if>
+			</if>
+		</foreach>
+		<if test="_this._orderBy != null and _this._orderBy.trim() != ''">
+			order by #{_this._orderBy}
+		</if>
+	</sql>
+
+	<select id="select" parameterType="map" resultMap="com.joinway.yilian.data.dao.mapper.UserRoleMapper.BaseResultMap">
+		<include refid="Select"></include>
+	</select>
+	
+	<select id="count" parameterType="map" resultType="long">
+		select count(*) from (
+		<include refid="Select"></include>
+		) t
+	</select>
+
+	<select id="selectGrid" parameterType="map" resultMap="UserRoleGridResultMap">
+		select 
+			u.id 
+			, u.user_id 
+			, u.role_id 
+			, u.tx_code 
+			, u.create_user_id 
+			, u.create_by 
+			, u.create_date 
+			, u.update_user_id 
+			, u.update_by 
+			, u.update_date 
+		from t_user_role u 
+		where 1 = 1
+		<if test="id != null">
+			and u.id = #{id}
+		</if>
+		<if test="user_id != null">
+			and u.user_id = #{user_id}
+		</if>
+		<if test="role_id != null">
+			and u.role_id = #{role_id}
+		</if>
+		<if test="tx_code != null and tx_code.trim() != ''">
+			and u.tx_code like concat('%', #{tx_code}, '%')
+		</if>
+		<if test="create_user_id != null">
+			and u.create_user_id = #{create_user_id}
+		</if>
+		<if test="create_by != null and create_by.trim() != ''">
+			and u.create_by like concat('%', #{create_by}, '%')
+		</if>
+		<if test="create_date_from != null">
+			and date_format(u.create_date, '%Y-%m-%d') &gt;= #{create_date_from}
+		</if>
+		<if test="create_date_to != null">
+			and date_format(u.create_date, '%Y-%m-%d') &lt;= #{create_date_to}
+		</if>
+		<if test="create_date != null">
+			and date_format(u.create_date, '%Y-%m-%d') = #{create_date}
+		</if>
+		<if test="update_user_id != null">
+			and u.update_user_id = #{update_user_id}
+		</if>
+		<if test="update_by != null and update_by.trim() != ''">
+			and u.update_by like concat('%', #{update_by}, '%')
+		</if>
+		<if test="update_date_from != null">
+			and date_format(u.update_date, '%Y-%m-%d') &gt;= #{update_date_from}
+		</if>
+		<if test="update_date_to != null">
+			and date_format(u.update_date, '%Y-%m-%d') &lt;= #{update_date_to}
+		</if>
+		<if test="update_date != null">
+			and date_format(u.update_date, '%Y-%m-%d') = #{update_date}
+		</if>
+		order by id desc
+	</select>
+
+	<insert id="insert" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+		insert into t_user_role 
+		<foreach collection="_this" index="key" open="(" close=")" separator=",">
+			<if test="!key.startsWith('_')">
+			${key}
+			</if>
+		</foreach>
+		values
+		<foreach collection="_this" index="key" item="value" open="(" close=")" separator=",">
+			<if test="!key.startsWith('_')">
+			if(length(#{value}) = 0, null, #{value})
+			</if>
+		</foreach>
+	</insert>
+	
+	<update id="update" parameterType="map">
+		update t_user_role set
+		<foreach collection="_this" index="key" item="value" open="" close="" separator=",">
+		<if test="key != 'id' and !key.startsWith('_')">
+			${key} = #{value}
+		</if>
+		</foreach>
+		where id = #{_this.id}
+	</update>
+	
+	<delete id="delete" parameterType="map">
+		delete from t_user_role where 1
+		<foreach collection="_this" index="key" item="value" open="" close="" separator="">
+			<if test="!key.startsWith('_')">
+				<if test="value == null">
+			and ${key} is null
+				</if>
+				<if test="value != null">
+			and ${key} = #{value}
+				</if>
+			</if>
+		</foreach>
+	</delete>
+</mapper>

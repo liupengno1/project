@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<context:component-scan base-package="com.joinway"/>
+	
+	<!-- 异步调用 -->
+	<!-- <task:annotation-driven/>
+	<task:executor id="taskExecutor" pool-size="500"/> -->
+	
+	<!-- javax和hibernate validation 验证支持类-->
+	<bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor" />
+	
+	<!-- 日志中添加请求序列号 -->
+	<mvc:interceptors>
+		<bean class="com.joinway.framework.support.logging.FlowInterceptor"/>
+		<bean class="com.joinway.yilian.support.aspect.AppContextInterceptor"/>
+	</mvc:interceptors>
+	
+	<!-- 拦截器配置 -->
+	<!--
+		按照配置的倒序执行
+	 -->
+	<!-- <aop:aspectj-autoproxy/> -->
+	<!-- 设置proxy-target-class="true"强制使用CGLIB动态代理 -->
+ 	<aop:config>
+ 		<aop:aspect ref="actionAspect">
+ 			<aop:around pointcut="execution(* com.joinway.yilian..service..*.*(..))" method="doAround"/>
+ 		</aop:aspect>
+
+		<aop:aspect ref="logAspect">
+			<aop:around pointcut="execution(* com.joinway.yilian..*(..))" method="doAround"/>
+		</aop:aspect>
+
+		<aop:aspect ref="facadeAspect">
+			<aop:around pointcut="execution(* com.joinway..controller.*.*(..))" method="doAround"/>
+		</aop:aspect>
+
+		<aop:aspect ref="inputAspect">
+			<aop:around pointcut="execution(* com.joinway..controller.*.*(..))" method="doAround"/>
+		</aop:aspect>
+		
+		<aop:aspect ref="performanceAspect">
+			<aop:around pointcut="execution(* com.joinway..controller.*.*(..))" method="doAround"/>
+		</aop:aspect>
+	</aop:config> 
+	
+	<bean id="actionAspect" class="com.joinway.yilian.support.aspect.ActionAspect">
+		<property name="messages">
+			<bean class="org.springframework.context.support.ResourceBundleMessageSource">
+				<property name="basename" value="messages/action"/>
+				<property name="defaultEncoding" value="UTF-8"/>
+			</bean>
+		</property>
+	</bean>
+ 	<bean id="logAspect" class="com.joinway.framework.support.logging.LogAspect"/>
+	<bean id="inputAspect" class="com.joinway.framework.support.input.InputAspect"/>
+	<bean id="performanceAspect" class="com.joinway.framework.support.audit.PerformanceAspect">
+		<property name="providers">
+			<list>
+				<bean class="com.joinway.framework.support.audit.provider.AllMethodProvider"/>
+			</list>
+		</property>
+	</bean>
+	
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="objectMapper">
+					<bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
+						<property name="serializers">
+							<list>
+								<bean class="com.joinway.framework.core.json.JsonDateTimeSerializer"/>
+							</list>
+						</property>
+						<property name="deserializers">
+							<list>
+								<bean class="com.joinway.framework.core.json.JsonDateTimeDeserializer"/>
+							</list>
+						</property>
+						<property name="indentOutput" ref="indentOutputJson"/>
+						<property name="featuresToEnable">
+							<list>
+								<bean class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+									<property name="staticField" value="com.fasterxml.jackson.databind.DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY"/>
+								</bean>
+							</list>
+						</property>
+						<!-- <property name="serializationInclusion">
+							<bean class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+								<property name="staticField" value="com.fasterxml.jackson.annotation.JsonInclude.Include.NON_DEFAULT"/>
+							</bean>
+						</property> -->
+					</bean>
+				</property>
+			</bean>
+			<bean class="org.springframework.http.converter.FormHttpMessageConverter"/>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+  
+  	<context:property-placeholder 
+  		location="classpath*:properties/${spring.profiles.active:dev}/app.properties,classpath*:properties/${spring.profiles.active:dev}/jdbc.properties"
+  		file-encoding="UTF-8"
+  	/>
+	<import resource="classpath*:spring/data-context.xml"/>
+	<import resource="beans-context.xml"/>
+	<import resource="cache-context.xml"/>
+	<import resource="shiro-context.xml"/>
+	
+	<bean id="urlLogConfig" class="com.joinway.yilian.support.bean.RequestLogUrlConfig">
+		<property name="urls">
+			<value>
+				post@/admin/login
+				/admin/logout
+				#/user/profile
+			</value>
+		</property>
+	</bean>
+
+	<beans profile="dev">
+		<bean id="facadeAspect" class="com.joinway.yilian.support.aspect.MockJsonFacadeAspect">
+			<property name="requestLogUrlConfig" ref="urlLogConfig"/>
+		</bean>
+		<bean id="indentOutputJson" class="java.lang.Boolean">
+			<constructor-arg value="true"/>
+		</bean>
+	</beans>
+	<beans profile="demo,test,qa,ci,sit,uat,prod">
+		<bean id="facadeAspect" class="com.joinway.yilian.support.aspect.FacadeAspect">
+			<property name="requestLogUrlConfig" ref="urlLogConfig"/>
+		</bean>
+		<bean id="indentOutputJson" class="java.lang.Boolean">
+			<constructor-arg value="true"/>
+		</bean>
+	</beans>	
+</beans>
+

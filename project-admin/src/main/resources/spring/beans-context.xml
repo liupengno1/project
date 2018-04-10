@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean class="com.joinway.yilian.support.service.impl.JdbcRequestRecorder"/>
+	
+	<bean class="com.joinway.framework.support.session.SessionProvider">
+		<constructor-arg>
+			<bean class="com.joinway.yilian.support.shiro.ShiroSessionModel"></bean>
+		</constructor-arg>
+	</bean>
+	
+	<bean class="com.joinway.yilian.support.service.impl.SecurityMailSender">
+		<property name="host" value="${mail.host}"/>
+		<property name="username" value="${mail.username}"/>
+		<property name="password" value="${mail.password}"/>
+		<property name="defaultEncoding" value="utf-8"/>
+	</bean>
+	
+</beans>

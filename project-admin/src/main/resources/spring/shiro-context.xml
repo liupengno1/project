@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+	<bean id="shiroFilter" name="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager"/>
+		<property name="loginUrl" value="/admin/nologin" />
+		<!-- <property name="successUrl" value="/user/success" /> -->
+		<property name="unauthorizedUrl" value="/admin/noauth" />
+		<property name="filters">
+			<util:map>
+				<entry key="rest">
+					<bean class="com.joinway.yilian.support.shiro.HttpMethodAuthzFilter"/>
+				</entry>
+			</util:map>
+		</property>
+		<property name="filterChainDefinitions">
+			<value>
+				/home/**	=	authc
+				/role/**	= 	authc
+				/user/**	= 	authc
+				/news/**	= 	authc
+				#/bbs/comment	=	rest["create,update"]
+				# /**	= anon
+			</value>
+		</property>
+	</bean>
+	
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="shiroRealm"/>
+	</bean>
+	
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+	
+	<bean id="shiroRealm" class="com.joinway.yilian.support.shiro.ShiroRealm"></bean>
+</beans>

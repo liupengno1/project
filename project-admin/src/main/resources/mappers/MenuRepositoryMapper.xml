@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joinway.yilian.admin.dao.repository.MenuRepository">
+
+	<resultMap id="MenuGridResultMap" type="com.joinway.yilian.admin.bean.domain.MenuGrid" extends="com.joinway.yilian.data.dao.mapper.MenuMapper.BaseResultMap">
+	</resultMap>
+
+	<sql id="Select">
+		select
+			<include refid="com.joinway.yilian.data.dao.mapper.MenuMapper.Base_Column_List" />
+		from t_menu where 1
+		<foreach collection="_this" index="key" item="value" open="" close="" separator="">
+			<if test="!key.startsWith('_')">
+				<if test="value == null">
+			and ${key} is null
+				</if>
+				<if test="value != null">
+			and ${key} = #{value}
+				</if>
+			</if>
+		</foreach>
+		<if test="_this._orderBy != null and _this._orderBy.trim() != ''">
+			order by #{_this._orderBy}
+		</if>
+	</sql>
+
+	<select id="select" parameterType="map" resultMap="com.joinway.yilian.data.dao.mapper.MenuMapper.BaseResultMap">
+		<include refid="Select"></include>
+	</select>
+	
+	<select id="count" parameterType="map" resultType="long">
+		select count(*) from (
+		<include refid="Select"></include>
+		) t
+	</select>
+
+	<select id="selectGrid" parameterType="map" resultMap="MenuGridResultMap">
+		select 
+			m.id 
+			, m.parent_id 
+			, m.name 
+			, m.url 
+			, m.icon_css 
+			, m.visible 
+			, m.delete_status 
+			, m.sort 
+			, m.tx_code 
+			, m.create_user_id 
+			, m.create_by 
+			, m.create_date 
+			, m.update_user_id 
+			, m.update_by 
+			, m.update_date 
+		from t_menu m 
+		where delete_status = 1
+		<if test="id != null">
+			and m.id = #{id}
+		</if>
+		<if test="parent_id != null">
+			and m.parent_id = #{parent_id}
+		</if>
+		<if test="name != null and name.trim() != ''">
+			and m.name like concat('%', #{name}, '%')
+		</if>
+		<if test="url != null and url.trim() != ''">
+			and m.url like concat('%', #{url}, '%')
+		</if>
+		<if test="icon_css != null and icon_css.trim() != ''">
+			and m.icon_css like concat('%', #{icon_css}, '%')
+		</if>
+		<if test="visible != null">
+			and m.visible = #{visible}
+		</if>
+		<if test="sort != null">
+			and m.sort = #{sort}
+		</if>
+		<if test="tx_code != null and tx_code.trim() != ''">
+			and m.tx_code like concat('%', #{tx_code}, '%')
+		</if>
+		<if test="create_user_id != null">
+			and m.create_user_id = #{create_user_id}
+		</if>
+		<if test="create_by != null and create_by.trim() != ''">
+			and m.create_by like concat('%', #{create_by}, '%')
+		</if>
+		<if test="create_date_from != null">
+			and date_format(m.create_date, '%Y-%m-%d') &gt;= #{create_date_from}
+		</if>
+		<if test="create_date_to != null">
+			and date_format(m.create_date, '%Y-%m-%d') &lt;= #{create_date_to}
+		</if>
+		<if test="create_date != null">
+			and date_format(m.create_date, '%Y-%m-%d') = #{create_date}
+		</if>
+		<if test="update_user_id != null">
+			and m.update_user_id = #{update_user_id}
+		</if>
+		<if test="update_by != null and update_by.trim() != ''">
+			and m.update_by like concat('%', #{update_by}, '%')
+		</if>
+		<if test="update_date_from != null">
+			and date_format(m.update_date, '%Y-%m-%d') &gt;= #{update_date_from}
+		</if>
+		<if test="update_date_to != null">
+			and date_format(m.update_date, '%Y-%m-%d') &lt;= #{update_date_to}
+		</if>
+		<if test="update_date != null">
+			and date_format(m.update_date, '%Y-%m-%d') = #{update_date}
+		</if>
+		order by id desc
+	</select>
+
+	<insert id="insert" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+		insert into t_menu 
+		<foreach collection="_this" index="key" open="(" close=")" separator=",">
+			<if test="!key.startsWith('_')">
+			${key}
+			</if>
+		</foreach>
+		values
+		<foreach collection="_this" index="key" item="value" open="(" close=")" separator=",">
+			<if test="!key.startsWith('_')">
+			if(length(#{value}) = 0, null, #{value})
+			</if>
+		</foreach>
+	</insert>
+	
+	<update id="update" parameterType="map">
+		update t_menu set
+		<foreach collection="_this" index="key" item="value" open="" close="" separator=",">
+		<if test="key != 'id' and !key.startsWith('_')">
+			${key} = #{value}
+		</if>
+		</foreach>
+		where id = #{_this.id}
+	</update>
+	
+	<delete id="delete" parameterType="map">
+		delete from t_menu where 1
+		<foreach collection="_this" index="key" item="value" open="" close="" separator="">
+			<if test="!key.startsWith('_')">
+				<if test="value == null">
+			and ${key} is null
+				</if>
+				<if test="value != null">
+			and ${key} = #{value}
+				</if>
+			</if>
+		</foreach>
+	</delete>
+
+	<select id="selectRoleMenus" resultMap="com.joinway.yilian.data.dao.mapper.MenuMapper.BaseResultMap">
+		select distinct
+			m.* 
+		from t_menu m
+			join t_role_menu rm on m.id = rm.menu_id
+		where m.delete_status = 1
+			and m.visible = 1
+			and rm.role_id in (1,3,25,35)
+		<foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+			#{roleId}
+		</foreach>
+		order by m.sort
+	</select>
+
+</mapper>

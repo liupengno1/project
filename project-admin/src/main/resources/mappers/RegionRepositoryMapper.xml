@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joinway.yilian.admin.dao.repository.RegionRepository">
+	<!--
+		此文件初版由工具生成，仅需生成一次，请定制开发
+		生成时间: 2017-09-22 12:47:05
+	-->
+	<resultMap id="RegionGridResultMap" type="com.joinway.yilian.admin.bean.domain.RegionGrid" extends="com.joinway.yilian.data.dao.mapper.RegionMapper.BaseResultMap">
+	</resultMap>
+
+	<sql id="Select">
+		select
+			<include refid="com.joinway.yilian.data.dao.mapper.RegionMapper.Base_Column_List" />
+		from t_region where 1
+		<foreach collection="_this" index="key" item="value" open="" close="" separator="">
+			<if test="!key.startsWith('_')">
+				<if test="value == null">
+			and ${key} is null
+				</if>
+				<if test="value != null">
+			and ${key} = #{value}
+				</if>
+			</if>
+		</foreach>
+		<if test="_orderBy != null and _orderBy.trim() != ''">
+			order by #{_orderBy}
+		</if>
+	</sql>
+
+	<select id="select" parameterType="map" resultMap="com.joinway.yilian.data.dao.mapper.RegionMapper.BaseResultMap">
+		<include refid="Select"></include>
+	</select>
+	
+	<select id="count" parameterType="map" resultType="long">
+		select count(*) from (
+		<include refid="Select"></include>
+		) t
+	</select>
+
+	<select id="selectGrid" parameterType="map" resultMap="RegionGridResultMap">
+		select 
+			r.id 
+			, r.cityid 
+			, r.root 
+			, r.preceding 
+			, r.citypath 
+			, r.rank 
+			, r.city 
+			, r.citytype 
+			, r.grovt 
+			, r.post 
+			, r.areaid 
+			, r.shortening 
+			, r.spell 
+			, r.keyword 
+			, r.orderstr 
+		from t_region r 
+		where 1 = 1
+		<if test="id != null">
+			and r.id = #{id}
+		</if>
+		<if test="cityid != null and cityid.trim() != ''">
+			and r.cityid like concat('%', #{cityid}, '%')
+		</if>
+		<if test="root != null and root.trim() != ''">
+			and r.root like concat('%', #{root}, '%')
+		</if>
+		<if test="preceding != null and preceding.trim() != ''">
+			and r.preceding like concat('%', #{preceding}, '%')
+		</if>
+		<if test="citypath != null and citypath.trim() != ''">
+			and r.citypath like concat('%', #{citypath}, '%')
+		</if>
+		<if test="rank != null and rank.trim() != ''">
+			and r.rank like concat('%', #{rank}, '%')
+		</if>
+		<if test="city != null and city.trim() != ''">
+			and r.city like concat('%', #{city}, '%')
+		</if>
+		<if test="citytype != null and citytype.trim() != ''">
+			and r.citytype like concat('%', #{citytype}, '%')
+		</if>
+		<if test="grovt != null and grovt.trim() != ''">
+			and r.grovt like concat('%', #{grovt}, '%')
+		</if>
+		<if test="post != null and post.trim() != ''">
+			and r.post like concat('%', #{post}, '%')
+		</if>
+		<if test="areaid != null and areaid.trim() != ''">
+			and r.areaid like concat('%', #{areaid}, '%')
+		</if>
+		<if test="shortening != null and shortening.trim() != ''">
+			and r.shortening like concat('%', #{shortening}, '%')
+		</if>
+		<if test="spell != null and spell.trim() != ''">
+			and r.spell like concat('%', #{spell}, '%')
+		</if>
+		<if test="keyword != null and keyword.trim() != ''">
+			and r.keyword like concat('%', #{keyword}, '%')
+		</if>
+		<if test="orderstr != null and orderstr.trim() != ''">
+			and r.orderstr like concat('%', #{orderstr}, '%')
+		</if>
+		order by r.id desc
+	</select>
+
+	<insert id="insert" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+		insert into t_region 
+		<foreach collection="_this" index="key" open="(" close=")" separator=",">
+			<if test="!key.startsWith('_')">
+			${key}
+			</if>
+		</foreach>
+		values
+		<foreach collection="_this" index="key" item="value" open="(" close=")" separator=",">
+			<if test="!key.startsWith('_')">
+			if(length(#{value}) = 0, null, #{value})
+			</if>
+		</foreach>
+	</insert>
+	
+	<update id="update" parameterType="map">
+		update t_region set
+		<foreach collection="_this" index="key" item="value" open="" close="" separator=",">
+		<if test="key != 'id' and !key.startsWith('_')">
+			${key} = #{value}
+		</if>
+		</foreach>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete" parameterType="map">
+		delete from t_region where 1
+		<foreach collection="_this" index="key" item="value" open="" close="" separator="">
+			<if test="!key.startsWith('_')">
+				<if test="value == null">
+			and ${key} is null
+				</if>
+				<if test="value != null">
+			and ${key} = #{value}
+				</if>
+			</if>
+		</foreach>
+	</delete>
+</mapper>

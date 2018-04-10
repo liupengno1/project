@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joinway.yilian.admin.dao.repository.ComplaintRepository">
+	<!--
+		此文件初版由工具生成，仅需生成一次，请定制开发
+		生成时间: 2017-09-22 11:19:15
+	-->
+	<resultMap id="ComplaintGridResultMap" type="com.joinway.yilian.admin.bean.domain.ComplaintGrid" extends="com.joinway.yilian.data.dao.mapper.ComplaintMapper.BaseResultMap">
+	</resultMap>
+
+	<sql id="Select">
+		select
+			<include refid="com.joinway.yilian.data.dao.mapper.ComplaintMapper.Base_Column_List" />
+		from t_complaint where 1
+		<foreach collection="_this" index="key" item="value" open="" close="" separator="">
+			<if test="!key.startsWith('_')">
+				<if test="value == null">
+			and ${key} is null
+				</if>
+				<if test="value != null">
+			and ${key} = #{value}
+				</if>
+			</if>
+		</foreach>
+		<if test="_orderBy != null and _orderBy.trim() != ''">
+			order by #{_orderBy}
+		</if>
+	</sql>
+
+	<select id="select" parameterType="map" resultMap="com.joinway.yilian.data.dao.mapper.ComplaintMapper.BaseResultMap">
+		<include refid="Select"></include>
+	</select>
+	
+	<select id="count" parameterType="map" resultType="long">
+		select count(*) from (
+		<include refid="Select"></include>
+		) t
+	</select>
+
+	<select id="selectGrid" parameterType="map" resultMap="ComplaintGridResultMap">
+		select 
+			c.id 
+			, c.work_id 
+			, c.type 
+			, c.complaint 
+			, c.create_user_id 
+			, c.create_by 
+			, c.create_date 
+			, u.img_url as imgUrl
+			, u.nike_name as nickName
+			, si.name
+		from t_complaint c 
+		left join t_user u
+		on u.id = c.create_user_id
+		left join t_service_info si
+		on si.id = c.work_id
+ 		where 1 = 1
+		<if test="id != null">
+			and c.id = #{id}
+		</if>
+		<if test="work_id != null">
+			and c.work_id = #{work_id}
+		</if>
+		<if test="type != null">
+			and c.type = #{type}
+		</if>
+		<if test="nike_name != null">
+			and u.nike_name = #{nike_name}
+		</if>
+		<if test="complaint != null">
+			and c.complaint = #{complaint}
+		</if>
+		<if test="create_user_id != null">
+			and c.create_user_id = #{create_user_id}
+		</if>
+		<if test="create_by != null and create_by.trim() != ''">
+			and c.create_by like concat('%', #{create_by}, '%')
+		</if>
+		<if test="create_date_from != null">
+			and date_format(c.create_date, '%Y-%m-%d') &gt;= #{create_date_from}
+		</if>
+		<if test="create_date_to != null">
+			and date_format(c.create_date, '%Y-%m-%d') &lt;= #{create_date_to}
+		</if>
+		<if test="create_date != null">
+			and date_format(c.create_date, '%Y-%m-%d') = #{create_date}
+		</if>
+		order by c.id desc
+	</select>
+
+	<insert id="insert" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+		insert into t_complaint 
+		<foreach collection="_this" index="key" open="(" close=")" separator=",">
+			<if test="!key.startsWith('_')">
+			${key}
+			</if>
+		</foreach>
+		values
+		<foreach collection="_this" index="key" item="value" open="(" close=")" separator=",">
+			<if test="!key.startsWith('_')">
+			if(length(#{value}) = 0, null, #{value})
+			</if>
+		</foreach>
+	</insert>
+	
+	<update id="update" parameterType="map">
+		update t_complaint set
+		<foreach collection="_this" index="key" item="value" open="" close="" separator=",">
+		<if test="key != 'id' and !key.startsWith('_')">
+			${key} = #{value}
+		</if>
+		</foreach>
+		where id = #{id}
+	</update>
+	
+	<update id="updateStatus" parameterType="map">
+		update t_complaint 
+		set status = #{status}
+		where work_id = #{work_id}
+	</update>
+	
+	<delete id="delete" parameterType="map">
+		delete from t_complaint where 1
+		<foreach collection="_this" index="key" item="value" open="" close="" separator="">
+			<if test="!key.startsWith('_')">
+				<if test="value == null">
+			and ${key} is null
+				</if>
+				<if test="value != null">
+			and ${key} = #{value}
+				</if>
+			</if>
+		</foreach>
+	</delete>
+</mapper>
