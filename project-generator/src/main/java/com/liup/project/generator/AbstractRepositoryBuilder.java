@@ -83,7 +83,7 @@ public abstract class AbstractRepositoryBuilder extends AbstractBuilder {
 		}
 		
 		String componentName = StringUtils.split(moduleName, "-")[1];
-		String javaDir = moduleRoot + "\\src\\main\\java\\com\\joinway\\yilian\\" + componentName + "\\dao\\repository\\";
+		String javaDir = moduleRoot + "\\src\\main\\java\\com\\liup\\project\\" + componentName + "\\dao\\repository\\";
 		String mapperDir = moduleRoot + "\\src\\main\\resources\\mappers\\";
 		
 		File repoDir = new File(javaDir);
@@ -149,19 +149,19 @@ public abstract class AbstractRepositoryBuilder extends AbstractBuilder {
 				}
 				model.put("titles", titles);
 				
-				String serviceDir = moduleRoot + "\\src\\main\\java\\com\\joinway\\yilian\\" + componentName + "\\service\\";
+				String serviceDir = moduleRoot + "\\src\\main\\java\\com\\liup\\project\\" + componentName + "\\service\\";
 				File svrDir = new File(serviceDir);
 				if(!svrDir.exists()){
 					svrDir.mkdirs();
 				}
 				
-				String excelServiceDir = moduleRoot + "\\src\\main\\java\\com\\joinway\\yilian\\" + componentName + "\\service\\file\\";
+				String excelServiceDir = moduleRoot + "\\src\\main\\java\\com\\liup\\project\\" + componentName + "\\service\\file\\";
 				File exsvrDir = new File(excelServiceDir);
 				if(!exsvrDir.exists()){
 					exsvrDir.mkdirs();
 				}
 				
-				String controllerDir = moduleRoot + "\\src\\main\\java\\com\\joinway\\yilian\\" + componentName + "\\controller\\";
+				String controllerDir = moduleRoot + "\\src\\main\\java\\com\\liup\\project\\" + componentName + "\\controller\\";
 				File ctlDir = new File(controllerDir);
 				if(!ctlDir.exists()){
 					ctlDir.mkdirs();
@@ -308,7 +308,7 @@ public abstract class AbstractRepositoryBuilder extends AbstractBuilder {
 				log.info("generated {}", cssFileName);
 			}
 			
-			String domainDir = moduleRoot + "\\src\\main\\java\\com\\joinway\\yilian\\" + componentName + "\\bean\\domain\\";
+			String domainDir = moduleRoot + "\\src\\main\\java\\com\\liup\\project\\" + componentName + "\\bean\\domain\\";
 			File dDir = new File(domainDir);
 			if(!dDir.exists()){
 				dDir.mkdirs();

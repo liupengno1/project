@@ -12,11 +12,11 @@ public final class ConfigFactory {
 	
 	public static DBConfig getConfig(){
 		DBConfig config = new DBConfig();
-		config.setIp("123.57.230.40");
+		config.setIp("127.0.0.1");
 		config.setPort(3306);
-		config.setUser("yilian_dev");
-		config.setPassword("Yilian123.");
-		config.setDb("yilian_dev");
+		config.setUser("root");
+		config.setPassword("liup");
+		config.setDb("liup");
 		
 		return config;
 	}

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joinway.project.admin.dao.repository.UsersRepository">
+	<!--
+		此文件初版由工具生成，仅需生成一次，请定制开发
+		生成时间: 2018-04-12 13:46:04
+	-->
+	<resultMap id="UsersGridResultMap" type="com.joinway.project.admin.bean.domain.UsersGrid" extends="com.joinway.project.data.dao.mapper.UsersMapper.BaseResultMap">
+	</resultMap>
+
+	<sql id="Select">
+		select
+			<include refid="com.joinway.project.data.dao.mapper.UsersMapper.Base_Column_List" />
+		from t_users where 1
+		<foreach collection="_this" index="key" item="value" open="" close="" separator="">
+			<if test="!key.startsWith('_')">
+				<if test="value == null">
+			and ${key} is null
+				</if>
+				<if test="value != null">
+			and ${key} = #{value}
+				</if>
+			</if>
+		</foreach>
+		<if test="_orderBy != null and _orderBy.trim() != ''">
+			order by #{_orderBy}
+		</if>
+	</sql>
+
+	<select id="select" parameterType="map" resultMap="com.joinway.project.data.dao.mapper.UsersMapper.BaseResultMap">
+		<include refid="Select"></include>
+	</select>
+	
+	<select id="count" parameterType="map" resultType="long">
+		select count(*) from (
+		<include refid="Select"></include>
+		) t
+	</select>
+
+	<select id="selectGrid" parameterType="map" resultMap="UsersGridResultMap">
+		select 
+			u.id 
+			, u.name 
+			, u.age 
+		from t_users u 
+		where 1 = 1
+		<if test="id != null">
+			and u.id = #{id}
+		</if>
+		<if test="name != null and name.trim() != ''">
+			and u.name like concat('%', #{name}, '%')
+		</if>
+		<if test="age != null">
+			and u.age = #{age}
+		</if>
+		order by u.id desc
+	</select>
+
+	<insert id="insert" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+		insert into t_users 
+		<foreach collection="_this" index="key" open="(" close=")" separator=",">
+			<if test="!key.startsWith('_')">
+			${key}
+			</if>
+		</foreach>
+		values
+		<foreach collection="_this" index="key" item="value" open="(" close=")" separator=",">
+			<if test="!key.startsWith('_')">
+			if(length(#{value}) = 0, null, #{value})
+			</if>
+		</foreach>
+	</insert>
+	
+	<update id="update" parameterType="map">
+		update t_users set
+		<foreach collection="_this" index="key" item="value" open="" close="" separator=",">
+		<if test="key != 'id' and !key.startsWith('_')">
+			${key} = #{value}
+		</if>
+		</foreach>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete" parameterType="map">
+		delete from t_users where 1
+		<foreach collection="_this" index="key" item="value" open="" close="" separator="">
+			<if test="!key.startsWith('_')">
+				<if test="value == null">
+			and ${key} is null
+				</if>
+				<if test="value != null">
+			and ${key} = #{value}
+				</if>
+			</if>
+		</foreach>
+	</delete>
+</mapper>

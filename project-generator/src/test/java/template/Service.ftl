@@ -1,4 +1,4 @@
-package com.joinway.${appName}.${componentName}.service;
+package com.liup.${appName}.${componentName}.service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,30 +13,30 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.joinway.framework.data.adaptor.bean.Page;
-import com.joinway.framework.data.adaptor.bean.PageRecord;
-import com.joinway.framework.extension.utils.NumberUtils;
-import com.joinway.framework.support.session.SessionProvider;
-import com.joinway.${appName}.${componentName}.bean.domain.${Table}Grid;
-import com.joinway.${appName}.${componentName}.bean.domain.${Table}Model;
-import com.joinway.${appName}.${componentName}.dao.repository.${Table}Repository;
-import com.joinway.${appName}.${componentName}.service.file.${Table}ExcelService;
-import com.joinway.${appName}.admin.task.BlindTaskMonitor;
-import com.joinway.${appName}.admin.task.ITaskProcessor;
-import com.joinway.${appName}.admin.task.TaskDaemon;
-import com.joinway.${appName}.admin.task.TaskMonitor;
-import com.joinway.${appName}.data.bean.domain.${Table};
-import com.joinway.${appName}.data.bean.domain.${Table}Example;
-import com.joinway.${appName}.data.constants.domain.${Table}Constants;
-import com.joinway.${appName}.support.bean.DiskFile;
-import com.joinway.${appName}.support.bean.view.BeanView;
-import com.joinway.${appName}.support.bean.view.FileView;
-import com.joinway.${appName}.support.bean.view.PageView;
-import com.joinway.${appName}.support.bean.view.View;
-import com.joinway.${appName}.support.builder.SqlParamBuilder;
-import com.joinway.${appName}.support.builder.ViewBuilder;
-import com.joinway.${appName}.support.constants.AppConstants;
-import com.joinway.yilian.support.service.impl.FileService;
+import com.liup.framework.data.adaptor.bean.Page;
+import com.liup.framework.data.adaptor.bean.PageRecord;
+import com.liup.framework.extension.utils.NumberUtils;
+import com.liup.framework.support.session.SessionProvider;
+import com.liup.${appName}.${componentName}.bean.domain.${Table}Grid;
+import com.liup.${appName}.${componentName}.bean.domain.${Table}Model;
+import com.liup.${appName}.${componentName}.dao.repository.${Table}Repository;
+import com.liup.${appName}.${componentName}.service.file.${Table}ExcelService;
+import com.liup.${appName}.admin.task.BlindTaskMonitor;
+import com.liup.${appName}.admin.task.ITaskProcessor;
+import com.liup.${appName}.admin.task.TaskDaemon;
+import com.liup.${appName}.admin.task.TaskMonitor;
+import com.liup.${appName}.data.bean.domain.${Table};
+import com.liup.${appName}.data.bean.domain.${Table}Example;
+import com.liup.${appName}.data.constants.domain.${Table}Constants;
+import com.liup.${appName}.support.bean.DiskFile;
+import com.liup.${appName}.support.bean.view.BeanView;
+import com.liup.${appName}.support.bean.view.FileView;
+import com.liup.${appName}.support.bean.view.PageView;
+import com.liup.${appName}.support.bean.view.View;
+import com.liup.${appName}.support.builder.SqlParamBuilder;
+import com.liup.${appName}.support.builder.ViewBuilder;
+import com.liup.${appName}.support.constants.AppConstants;
+import com.liup.project.support.service.impl.FileService;
 
 /**
  * 此文件初版由工具生成，请定制开发

@@ -23,7 +23,7 @@ public abstract class AbstractBuilder {
 	
 	private static final Map<String, String> DATA_TYPE_MAP = new HashMap<>();
 	
-	protected static final String APP_NAME = "yilian";
+	protected static final String APP_NAME = "project";
 	
 	protected abstract DBConfig getDBConfig();
 	

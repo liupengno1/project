@@ -1,4 +1,4 @@
-package com.joinway.${appName}.data.constants.domain;
+package com.liup.${appName}.data.constants.domain;
 
 import java.util.Arrays;
 import java.util.Collections;

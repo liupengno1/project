@@ -1,4 +1,4 @@
-package com.joinway.${appName}.${componentName}.service.file;
+package com.liup.${appName}.${componentName}.service.file;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,20 +25,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.joinway.framework.extension.utils.DateTimeUtils;
-import com.joinway.framework.extension.utils.NumberUtils;
-import com.joinway.${appName}.admin.bean.domain.${Table}Grid;
-import com.joinway.${appName}.admin.dao.repository.${Table}Repository;
-import com.joinway.${appName}.admin.task.TaskMonitor;
-import com.joinway.${appName}.data.bean.domain.${Table};
-import com.joinway.${appName}.data.constants.domain.${Table}Constants;
-import com.joinway.${appName}.data.constants.domain.TaskConstants;
-import com.joinway.${appName}.support.bean.DiskFile;
-import com.joinway.${appName}.support.bean.view.BeanView;
-import com.joinway.${appName}.support.bean.view.FileView;
-import com.joinway.${appName}.support.service.impl.FilePathBuilder;
-import com.joinway.${appName}.support.utils.ExcelUtils;
-import com.joinway.${appName}.support.utils.Utils;
+import com.liup.framework.extension.utils.DateTimeUtils;
+import com.liup.framework.extension.utils.NumberUtils;
+import com.liup.${appName}.admin.bean.domain.${Table}Grid;
+import com.liup.${appName}.admin.dao.repository.${Table}Repository;
+import com.liup.${appName}.admin.task.TaskMonitor;
+import com.liup.${appName}.data.bean.domain.${Table};
+import com.liup.${appName}.data.constants.domain.${Table}Constants;
+import com.liup.${appName}.data.constants.domain.TaskConstants;
+import com.liup.${appName}.support.bean.DiskFile;
+import com.liup.${appName}.support.bean.view.BeanView;
+import com.liup.${appName}.support.bean.view.FileView;
+import com.liup.${appName}.support.service.impl.FilePathBuilder;
+import com.liup.${appName}.support.utils.ExcelUtils;
+import com.liup.${appName}.support.utils.Utils;
 
 /**
  * 此文件初版由工具生成，请定制开发

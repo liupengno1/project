@@ -1,4 +1,4 @@
-package com.joinway.${appName}.${componentName}.controller;
+package com.liup.${appName}.${componentName}.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -23,18 +23,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.joinway.framework.bean.logging.annotation.LogIgnore;
-import com.joinway.framework.extension.utils.DataUtils;
-import com.joinway.framework.extension.utils.NumberUtils;
-import com.joinway.framework.extension.utils.data.Constructor;
-import com.joinway.yilian.admin.bean.domain.${Table}Grid;
-import com.joinway.yilian.admin.bean.domain.${Table}Model;
-import com.joinway.yilian.admin.service.${Table}Service;
-import com.joinway.yilian.support.bean.view.BeanView;
-import com.joinway.yilian.support.bean.view.PageView;
-import com.joinway.yilian.support.bean.view.View;
-import com.joinway.yilian.support.builder.RequestParamBuilder;
-import com.joinway.yilian.support.constants.ApiConstraintConstants.Id;
+import com.liup.framework.bean.logging.annotation.LogIgnore;
+import com.liup.framework.extension.utils.DataUtils;
+import com.liup.framework.extension.utils.NumberUtils;
+import com.liup.framework.extension.utils.data.Constructor;
+import com.liup.project.admin.bean.domain.${Table}Grid;
+import com.liup.project.admin.bean.domain.${Table}Model;
+import com.liup.project.admin.service.${Table}Service;
+import com.liup.project.support.bean.view.BeanView;
+import com.liup.project.support.bean.view.PageView;
+import com.liup.project.support.bean.view.View;
+import com.liup.project.support.builder.RequestParamBuilder;
+import com.liup.project.support.constants.ApiConstraintConstants.Id;
 
 /**
  * 此文件初版由工具生成，请定制开发

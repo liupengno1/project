@@ -21,13 +21,13 @@ public class AdminRepositoryGenerator extends AbstractRepositoryBuilder {
 	
 	@Override
 	protected String getModuleName() {
-		return "yilian-admin";
+		return "project-admin";
 	}
 
 	@Override
 	protected String getAdminRoot() {
 //		return "G:\\zonghui\\bangbang_admin_code\\yilian-admin-html\\app";
-		return "E:\\tmp\\yilian-admin-html";
+		return "E:\\tmp\\liup-admin-html";
 	}
 
 	@Before public void init(){
@@ -45,8 +45,8 @@ public class AdminRepositoryGenerator extends AbstractRepositoryBuilder {
 	
 	@Test public void build() throws Exception {
 		super.withUI = true;
-		buildSingleRepository();
-//		buildAllRepositories();
+//		buildSingleRepository();
+		buildAllRepositories();
 	}
 	
 	private void buildSingleRepository() throws Exception {
